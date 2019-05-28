@@ -6,9 +6,33 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy.loader import ItemLoader
+from scrapy.loader.processors import MapCompose, TakeFirst
+from .utils.common import get_nums
 
 
 class GithubtrendingItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    url = scrapy.Field()
+    title_homepage = scrapy.Field()
+    title_detail = scrapy.Field(
+        input_processor = MapCompose(lambda x: x.strip())
+    )
+    describe = scrapy.Field(
+        input_processor = MapCompose(lambda x: x.strip())
+    )
+    programming_language = scrapy.Field()
+    star = scrapy.Field(
+        input_processor = MapCompose(get_nums)
+    )
+    fork = scrapy.Field(
+        input_processor = MapCompose(get_nums)
+    )
+    builtBy = scrapy.Field()
+    octicon_star = scrapy.Field(
+        input_processor = MapCompose(lambda x: x.strip())
+    )
+
+
+class TrendingItemLoader(ItemLoader):
+    # 自定义item_loader
+    default_output_processor = TakeFirst()
