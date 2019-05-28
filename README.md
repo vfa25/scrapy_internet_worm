@@ -1,0 +1,1 @@
+# scrapy_staticpage_trending
