@@ -9,6 +9,8 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+from GithubTrending.myconfig import *
+
 BOT_NAME = 'GithubTrending'
 
 SPIDER_MODULES = ['GithubTrending.spiders']
@@ -64,9 +66,10 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
+ITEM_PIPELINES = {
 #    'GithubTrending.pipelines.GithubtrendingPipeline': 300,
-#}
+   'GithubTrending.pipelines.MysqlTwistedPipline': 1,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

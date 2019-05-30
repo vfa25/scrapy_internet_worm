@@ -13,6 +13,9 @@ from .utils.common import get_nums
 
 class GithubtrendingItem(scrapy.Item):
     url = scrapy.Field()
+    url_object_id = scrapy.Field()
+    tag = scrapy.Field()
+    date_type = scrapy.Field()
     title_homepage = scrapy.Field()
     title_detail = scrapy.Field(
         input_processor = MapCompose(lambda x: x.strip())
@@ -27,7 +30,7 @@ class GithubtrendingItem(scrapy.Item):
     fork = scrapy.Field(
         input_processor = MapCompose(get_nums)
     )
-    builtBy = scrapy.Field()
+    build_by = scrapy.Field()
     octicon_star = scrapy.Field(
         input_processor = MapCompose(lambda x: x.strip())
     )
