@@ -49,17 +49,17 @@ class GithubAppSpider(scrapy.Spider):
     def parse_list(self, response):
         date_type = response.meta.get('date_type', '')
         tag = response.meta.get('tag', '')
-        article_item = GithubtrendingItem()
-
-        # # 通过item_loader加载item
-        item_loader = TrendingItemLoader(
-            item=article_item,
-            response=response
-        )
         post_nodes = response.css('.repo-list li')
 
         for post_node in post_nodes:
-            item_loader.selector = post_node
+            # spider方法必须返回可迭代对象，Request或item
+            # 应在此实例化
+            article_item = GithubtrendingItem()
+            # 通过item_loader加载item
+            item_loader = TrendingItemLoader(
+                item=article_item,
+                selector=post_node
+            )
 
             # 这里好烦，github加了个换行
 
