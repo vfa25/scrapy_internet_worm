@@ -43,24 +43,28 @@ class MysqlTwistedPipline(object):
 
 
     def do_insert(self, cursor, item):
+        # insert_sql = '''
+        # insert into trending(url_object_id, tag, date_type, url,title_homepage,
+        # title_detail, `describe`, programming_language, star, fork, build_by, octicon_star)
+        # VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        # '''
         insert_sql = '''
-        insert into trending(url_object_id, tag, date_type, url,title_homepage,
-        title_detail, `describe`, programming_language, star, fork, build_by, octicon_star)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        insert into trending(date_type, url_object_id)
+        VALUES (%s, %s)
         '''
         cursor.execute(
             insert_sql, (
                 item['url_object_id'],
-                item['tag'],
+                # item['tag'],
                 item['date_type'],
-                item['url'],
-                item['title_homepage'],
-                item['title_detail'],
-                item['describe'],
-                item['programming_language'],
-                item['star'],
-                item['fork'],
-                item['build_by'],
-                item['octicon_star']
+                # item['url'],
+                # item['title_homepage'],
+                # item['title_detail'],
+                # item['describe'],
+                # item['programming_language'],
+                # item['star'],
+                # item['fork'],
+                # item['build_by'],
+                # item['octicon_star']
             )
         )

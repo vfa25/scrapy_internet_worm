@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for GithubTrending project
+# Scrapy settings for ScrapyDemo project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,16 +9,16 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-from GithubTrending.myconfig import *
+from ScrapyDemo.myconfig import *
 
-BOT_NAME = 'GithubTrending'
+BOT_NAME = 'ScrapyDemo'
 
-SPIDER_MODULES = ['GithubTrending.spiders']
-NEWSPIDER_MODULE = 'GithubTrending.spiders'
+SPIDER_MODULES = ['ScrapyDemo.spiders']
+NEWSPIDER_MODULE = 'ScrapyDemo.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'GithubTrending (+http://www.yourdomain.com)'
+#USER_AGENT = 'ScrapyDemo (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -49,13 +49,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'GithubTrending.middlewares.GithubtrendingSpiderMiddleware': 543,
+#    'ScrapyDemo.middlewares.ScrapyDemoSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'GithubTrending.middlewares.GithubtrendingDownloaderMiddleware': 543,
+#    'ScrapyDemo.middlewares.ScrapyDemoDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -67,8 +67,8 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-#    'GithubTrending.pipelines.GithubtrendingPipeline': 300,
-   'GithubTrending.pipelines.MysqlTwistedPipline': 1,
+#    'ScrapyDemo.pipelines.ScrapyDemoPipeline': 300,
+   'ScrapyDemo.pipelines.MysqlTwistedPipline': 1,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

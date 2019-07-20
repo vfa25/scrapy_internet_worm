@@ -11,7 +11,7 @@ from scrapy.loader.processors import MapCompose, TakeFirst
 from .utils.common import get_nums
 
 
-class GithubtrendingItem(scrapy.Item):
+class ScrapyDemoItem(scrapy.Item):
     url = scrapy.Field()
     url_object_id = scrapy.Field()
     tag = scrapy.Field()

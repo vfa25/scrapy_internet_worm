@@ -2,8 +2,8 @@
 import scrapy
 from scrapy.http import Request
 from urllib import parse as urlparse
-from GithubTrending.utils.common import get_md5
-from GithubTrending.items import GithubtrendingItem, TrendingItemLoader
+from ScrapyDemo.utils.common import get_md5
+from ScrapyDemo.items import ScrapyDemoItem, TrendingItemLoader
 
 
 class GithubAppSpider(scrapy.Spider):
@@ -14,7 +14,7 @@ class GithubAppSpider(scrapy.Spider):
     def parse(self, response):
         # 解析时间类型
         post_nodes = response.css(
-            '.select-menu-modal-right .select-menu-list a')
+            '#select-menu-date .select-menu-list a')
 
         for post_node in post_nodes:
             post_url = post_node.css('::attr(href)').extract_first('')
@@ -25,36 +25,36 @@ class GithubAppSpider(scrapy.Spider):
                 meta={
                     'date_type': post_text
                 },
-                callback=self.parse_nav
-            )
-
-    def parse_nav(self, response):
-        # 接收时间类型
-        date_type = response.meta.get('date_type', '')
-        # 解析导航菜单
-        post_nodes = response.css('.filter-list a.filter-item')
-
-        for post_node in post_nodes:
-            post_url = post_node.css('::attr(href)').extract_first('')
-            post_text = post_node.css('::text').extract_first('')
-            yield Request(
-                url=urlparse.urljoin(response.url, post_url),
-                meta={
-                    'date_type': date_type,
-                    'tag': post_text
-                },
                 callback=self.parse_list
             )
 
+    # def parse_nav(self, response):
+    #     # 接收时间类型
+    #     date_type = response.meta.get('date_type', '')
+    #     # 解析导航菜单
+    #     post_nodes = response.css('.filter-list a.filter-item')
+
+    #     for post_node in post_nodes:
+    #         post_url = post_node.css('::attr(href)').extract_first('')
+    #         post_text = post_node.css('::text').extract_first('')
+    #         yield Request(
+    #             url=urlparse.urljoin(response.url, post_url),
+    #             meta={
+    #                 'date_type': date_type,
+    #                 'tag': post_text
+    #             },
+    #             callback=self.parse_list
+    #         )
+
     def parse_list(self, response):
         date_type = response.meta.get('date_type', '')
-        tag = response.meta.get('tag', '')
-        post_nodes = response.css('.repo-list li')
+        # tag = response.meta.get('tag', '')
+        post_nodes = response.css('.Box-row')
 
         for post_node in post_nodes:
             # spider方法必须返回可迭代对象，Request或item
             # 应在此实例化
-            article_item = GithubtrendingItem()
+            article_item = ScrapyDemoItem()
             # 通过item_loader加载item
             item_loader = TrendingItemLoader(
                 item=article_item,
@@ -63,7 +63,7 @@ class GithubAppSpider(scrapy.Spider):
 
             # 这里好烦，github加了个换行
 
-            item_loader.add_value('tag', tag)
+            # item_loader.add_value('tag', tag)
             item_loader.add_value('date_type', date_type)
 
             post_url = post_node.css(

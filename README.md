@@ -1,1 +1,1 @@
-# scrapy_staticpage_trending
+# scrapy_demo
