@@ -5,14 +5,51 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
+# mysql相关
 import MySQLdb
 import MySQLdb.cursors
 from twisted.enterprise import adbapi
 
-# 异步写入mqsql
+# json相关
+import codecs
+import json
+
+from scrapy.exporters import JsonItemExporter
+
+
+class JsonWithEncodingPipeline(object):
+    # 自定义json文件导出
+    def __init__(self):
+        self.file = codecs.open('asideNav.json', 'w', encoding='utf-8')
+
+    def process_item(self, item, spider):
+        lines = json.dumps(dict(item), ensure_ascii=False) + '\n'
+        self.file.write(lines)
+        return item
+
+    def spider_closed(self, spider):
+        self.file.close()
+
+
+class JsonExporterPipeline(object):
+    # 调用sctapy提供的json exporter导出json数据
+    def __init__(self):
+        self.file = open('asideNavExport.json', 'wb')
+        self.exporter = JsonItemExporter(
+            self.file, encoding='utf-8', ensure_ascii=False)
+        self.exporter.start_exporting()
+
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.file.close()
+
+    def process_item(self, item, spider):
+        self.exporter.export_item(item)
+        return item
 
 
 class MysqlTwistedPipline(object):
+    # 异步写入mqsql
     def __init__(self, dbpool):
         self.dbpool = dbpool
 
@@ -40,7 +77,6 @@ class MysqlTwistedPipline(object):
     def handle_error(self, failure, item, spider):
         # 处理异步插入的异常
         print('failure', failure)
-
 
     def do_insert(self, cursor, item):
         # insert_sql = '''

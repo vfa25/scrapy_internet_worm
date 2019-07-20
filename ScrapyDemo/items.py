@@ -11,6 +11,14 @@ from scrapy.loader.processors import MapCompose, TakeFirst
 from .utils.common import get_nums
 
 
+class AntdAsideNavItem(scrapy.Item):
+    primary_title = scrapy.Field()
+    secondary_title = scrapy.Field()
+    secondary_key = scrapy.Field()
+    least_title = scrapy.Field()
+    least_key = scrapy.Field()
+    
+
 class ScrapyDemoItem(scrapy.Item):
     url = scrapy.Field()
     url_object_id = scrapy.Field()

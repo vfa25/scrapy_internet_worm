@@ -67,8 +67,12 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-#    'ScrapyDemo.pipelines.ScrapyDemoPipeline': 300,
-   'ScrapyDemo.pipelines.MysqlTwistedPipline': 1,
+   # 'ScrapyDemo.pipelines.ScrapyDemoPipeline': 300,
+   # mysql pipeline
+   # 'ScrapyDemo.pipelines.MysqlTwistedPipline': 1,
+   # json pipeline
+   'ScrapyDemo.pipelines.JsonWithEncodingPipeline': 1
+   # 'ScrapyDemo.pipelines.JsonExporterPipeline': 1
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
