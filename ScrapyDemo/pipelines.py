@@ -23,7 +23,7 @@ class JsonWithEncodingPipeline(object):
         self.file = codecs.open('asideNav.json', 'w', encoding='utf-8')
 
     def process_item(self, item, spider):
-        lines = json.dumps(dict(item), ensure_ascii=False) + '\n'
+        lines = json.dumps(dict(item), ensure_ascii=False) + ',\n'
         self.file.write(lines)
         return item
 

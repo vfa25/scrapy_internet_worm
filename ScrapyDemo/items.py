@@ -14,10 +14,18 @@ from .utils.common import get_nums
 class AntdAsideNavItem(scrapy.Item):
     primary_title = scrapy.Field()
     secondary_title = scrapy.Field()
+    secondary_name = scrapy.Field()
     secondary_key = scrapy.Field()
-    least_title = scrapy.Field()
-    least_key = scrapy.Field()
-    
+
+
+class AntdComponentDetailItem(scrapy.Item):
+    desc = scrapy.Field()
+    name = scrapy.Field()
+    key = scrapy.Field()
+    key = scrapy.Field()
+    easy_to_use = scrapy.Field()
+    category_name = scrapy.Field()
+
 
 class ScrapyDemoItem(scrapy.Item):
     url = scrapy.Field()
@@ -26,21 +34,21 @@ class ScrapyDemoItem(scrapy.Item):
     date_type = scrapy.Field()
     title_homepage = scrapy.Field()
     title_detail = scrapy.Field(
-        input_processor = MapCompose(lambda x: x.strip())
+        input_processor=MapCompose(lambda x: x.strip())
     )
     describe = scrapy.Field(
-        input_processor = MapCompose(lambda x: x.strip())
+        input_processor=MapCompose(lambda x: x.strip())
     )
     programming_language = scrapy.Field()
     star = scrapy.Field(
-        input_processor = MapCompose(get_nums)
+        input_processor=MapCompose(get_nums)
     )
     fork = scrapy.Field(
-        input_processor = MapCompose(get_nums)
+        input_processor=MapCompose(get_nums)
     )
     build_by = scrapy.Field()
     octicon_star = scrapy.Field(
-        input_processor = MapCompose(lambda x: x.strip())
+        input_processor=MapCompose(lambda x: x.strip())
     )
 
 
