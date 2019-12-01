@@ -10,6 +10,7 @@ from ScrapyDemo.items import (
 
 random_ins = Random()
 
+
 class AntDesignAsideSpider(scrapy.Spider):
     name = 'ant_design_aside'
     allowed_domains = ['ant.design']
@@ -75,7 +76,8 @@ class AntDesignAsideSpider(scrapy.Spider):
                 selector=post_node
             )
             component_loader.add_value('name', name)
-            component_loader.add_value('easy_to_use', random_ins.randint(1, 99))
+            component_loader.add_value(
+                'easy_to_use', random_ins.randint(1, 99))
             component_loader.add_value('key', detail_id.replace('#', '', 1))
             component_loader.add_value('category_name', secondary_name)
             least_title = detail_block.css(' div *::text').extract()

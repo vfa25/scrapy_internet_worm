@@ -1,0 +1,28 @@
+{
+  "name": "scrapy_internet_worm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vfa25/scrapy_internet_worm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vfa25/scrapy_internet_worm/issues"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "homepage": "https://github.com/vfa25/scrapy_internet_worm#readme",
+  "devDependencies": {
+    "commitizen": "^3.1.1"
+  }
+}
