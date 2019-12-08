@@ -1,4 +1,6 @@
 .vscode
 /ScrapyDemo/myconfig.*
 /ScrapyDemo/**/__pycache__/*
+/ScrapyDemo/images
 node_modules
+data

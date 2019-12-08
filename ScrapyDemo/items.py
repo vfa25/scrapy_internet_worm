@@ -7,8 +7,9 @@
 
 import scrapy
 from scrapy.loader import ItemLoader
-from scrapy.loader.processors import MapCompose, TakeFirst
+from scrapy.loader.processors import (MapCompose, TakeFirst, Identity, Join)
 from .utils.common import get_nums
+from .utils.item_handle import (date_convert)
 
 
 class AntdAsideNavItem(scrapy.Item):
@@ -26,18 +27,28 @@ class AntdComponentDetailItem(scrapy.Item):
     easy_to_use = scrapy.Field()
     category_name = scrapy.Field()
 
+
 class CnblogsItem(scrapy.Item):
-    title = scrapy.Field()
-    create_date = scrapy.Field()
+    title = scrapy.Field(
+        input_processor=MapCompose(lambda x: x.strip())
+    )
+    create_date = scrapy.Field(
+        input_processor=MapCompose(date_convert)
+    )
     url = scrapy.Field()
     url_object_id = scrapy.Field()
-    front_image_url = scrapy.Field()
+    front_image_url = scrapy.Field(
+        output_processor=Identity()
+    )
     front_image_path = scrapy.Field()
     praise_nums = scrapy.Field()
     comment_nums = scrapy.Field()
     fav_nums = scrapy.Field()
-    tags = scrapy.Field()
+    tags = scrapy.Field(
+        output_processor=Join(separator=',')
+    )
     content = scrapy.Field()
+
 
 class ScrapyDemoItem(scrapy.Item):
     url = scrapy.Field()
@@ -64,6 +75,8 @@ class ScrapyDemoItem(scrapy.Item):
     )
 
 
-class TrendingItemLoader(ItemLoader):
-    # 自定义item_loader
+class TakeFirstItemLoader(ItemLoader):
+    '''
+    自定义item_loader：取list的first_extract
+    '''
     default_output_processor = TakeFirst()
