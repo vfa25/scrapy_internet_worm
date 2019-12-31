@@ -24,6 +24,7 @@ NEWSPIDER_MODULE = 'ScrapyDemo.spiders'
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36'
 
 # Obey robots.txt rules
+# [关闭] 遵循Robot协议
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
