@@ -10,7 +10,7 @@ def get_md5(url):
     return m.hexdigest()
 
 
-def get_nums(value):
+def extract_num(value):
     match_re = re.match('.*?(\d+).*', value, re.S)
     if match_re:
         nums = int(match_re.group(1))
