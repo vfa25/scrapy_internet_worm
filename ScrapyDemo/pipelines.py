@@ -96,18 +96,12 @@ class MysqlTwistedPipline(object):
 
     def handle_error(self, failure, item, spider):
         # 处理异步插入的异常
-        print('failure', failure, item)
+        print('failure', failure, item, spider)
 
     def do_insert(self, cursor, item):
         '''
         真正的入库逻辑
         根据不同的item构建不同的sql语句并插入到mysql中
         '''
-        # if item.__class__.__name__ == 'CnblogsItem':
-        # insert_sql = '''
-        # insert into trending(url_object_id, tag, date_type, url,title_homepage,
-        # title_detail, `describe`, programming_language, star, fork, build_by, octicon_star)
-        # VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        # '''
         insert_sql, params = item.get_insert_sql()
         cursor.execute(insert_sql, params)

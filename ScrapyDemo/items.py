@@ -40,7 +40,13 @@ class ZhihuQuestionItem(scrapy.Item):
             insert into zhihu_question(zhihu_id, topics, url, title, content,
             answer_num, comments_num, watch_user_num, click_num, crawl_time)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            ON DUPLICATE KEY UPDATE title=VALUES(title)
+            ON DUPLICATE KEY UPDATE title=VALUES(title),
+            topics=VALUES(topics),
+            content=VALUES(content),
+            answer_num=VALUES(answer_num),
+            comments_num=VALUES(comments_num),
+            watch_user_num=VALUES(watch_user_num),
+            click_num=VALUES(click_num)
             '''
         zhihu_id = self['zhihu_id'][0]
         topics = ','.join(self['topics'])
@@ -58,7 +64,7 @@ class ZhihuQuestionItem(scrapy.Item):
             click_num = 0
 
         params = (zhihu_id, topics, url, title, content,
-            answer_num, comments_num, watch_user_num, click_num, crawl_time)
+                  answer_num, comments_num, watch_user_num, click_num, crawl_time)
         return insert_sql, params
 
 
@@ -69,11 +75,36 @@ class ZhihuAnswerItem(scrapy.Item):
     question_id = scrapy.Field()
     author_id = scrapy.Field()
     content = scrapy.Field()
-    parise_num = scrapy.Field()
+    praise_num = scrapy.Field()
     comments_num = scrapy.Field()
     create_time = scrapy.Field()
     update_time = scrapy.Field()
     crawl_time = scrapy.Field()
+
+    def get_insert_sql(self):
+        insert_sql = '''
+            insert into zhihu_answer(zhihu_id, url, question_id, author_id, content,
+            praise_num, comments_num, create_time, update_time, crawl_time, crawl_update_time)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE content=VALUES(content),
+            praise_num=VALUES(praise_num),
+            comments_num=VALUES(comments_num),
+            update_time=VALUES(update_time),
+            crawl_update_time=VALUES(crawl_time)
+        '''
+
+        create_time = datetime.datetime.fromtimestamp(
+            self['create_time']).strftime(SQL_DATE_FORMAT)
+        update_time = datetime.datetime.fromtimestamp(
+            self['update_time']).strftime(SQL_DATE_FORMAT)
+        params = (
+            self['zhihu_id'], self['url'], self['question_id'],
+            self['author_id'], self['content'], self['praise_num'],
+            self['comments_num'], create_time, update_time,
+            self['crawl_time'].strftime(SQL_DATETIME_FORMAT),
+            None
+        )
+        return insert_sql, params
 
 
 class AntdComponentDetailItem(scrapy.Item):
@@ -114,6 +145,7 @@ class CnblogsItem(scrapy.Item):
         params = (self['url_object_id'], self['title'])
 
         return insert_sql, params
+
 
 class ScrapyDemoItem(scrapy.Item):
     url = scrapy.Field()
