@@ -108,6 +108,8 @@ IMAGES_URLS_FIELD = 'front_image_url'
 project_dir = os.path.dirname(os.path.abspath(__file__))
 IMAGES_STORE = os.path.join(project_dir, 'images')
 
+sys.path.insert(0, project_dir)
+
 # 设置mysql入库的 时间格式化
 SQL_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 SQL_DATE_FORMAT = '%Y-%m-%d'
