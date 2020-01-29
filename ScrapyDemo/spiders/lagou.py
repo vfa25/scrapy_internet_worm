@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
+import datetime
 
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 import pickle
 
+from ScrapyDemo.items import CustomItemLoader, LagouJobItem
 from ScrapyDemo.settings import LAGOU_USERNAME, LAGOU_PASSWORD
+from ScrapyDemo.utils.common import get_md5
 
 
 class LagouSpider(CrawlSpider):
@@ -126,7 +129,7 @@ class LagouSpider(CrawlSpider):
 
                         browser.find_element_by_css_selector(
                             '.geetest_commit').click()
-                        time.sleep(3)
+                        time.sleep(5)
 
             cookies = browser.get_cookies()
             # 写入cookie到文件中
@@ -140,14 +143,31 @@ class LagouSpider(CrawlSpider):
         for url in self.start_urls:
             yield scrapy.Request(url, dont_filter=True, cookies=cookie_dict)
 
-        pass
-
     def parse_job(self, response):
         '''
         解析拉勾网的职位
         '''
-        item = {}
-        #item['domain_id'] = response.xpath('//input[@id="sid"]/@value').get()
-        #item['name'] = response.xpath('//div[@id="name"]').get()
-        #item['description'] = response.xpath('//div[@id="description"]').get()
-        return item
+        item_loader = CustomItemLoader(item=LagouJobItem(), response=response)
+        item_loader.add_css('title', '.job-name::attr(title)')
+        item_loader.add_value('url', response.url)
+        item_loader.add_value('url_object_id', get_md5(response.url))
+        item_loader.add_css('salary', '.job_request .salary::text')
+        item_loader.add_xpath(
+            'job_city', '//*[@class="job_request"]/h3/span[2]/text()')
+        item_loader.add_xpath(
+            'work_years', '//*[@class="job_request"]/h3/span[3]/text()')
+        item_loader.add_xpath(
+            'degree_need', '//*[@class="job_request"]/h3/span[4]/text()')
+        item_loader.add_xpath(
+            'job_type', '//*[@class="job_request"]/h3/span[5]/text()')
+        item_loader.add_css('tags', '.position-label li::text')
+        item_loader.add_css('publish_time', '.publish_time::text')
+        item_loader.add_css('job_advantage', '.job-advantage p::text')
+        item_loader.add_css('job_desc', '.job_bt div')
+        item_loader.add_css('job_addr', '.work_addr')
+        item_loader.add_css('company_name', '#job_company dt a img::attr(alt)')
+        item_loader.add_css('company_url', '#job_company dt a::attr(href)')
+        item_loader.add_value('crawl_time', datetime.datetime.now())
+
+        job_item = item_loader.load_item()
+        return job_item

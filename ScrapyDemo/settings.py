@@ -39,7 +39,11 @@ ROBOTSTXT_OBEY = False
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
+# 在scrapy.downloadermiddlewares.cookies中，
+# 可以看到：类方法from_crawler和实例方法process_request
+# 会作用于所有的Request（即从第一个上提取cookie并设置在请求头）
 COOKIES_ENABLED = True
+# 开启cookie调试
 COOKIES_DEBUG = True
 
 # Disable Telnet Console (enabled by default)
@@ -61,6 +65,7 @@ COOKIES_DEBUG = True
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
 #    'ScrapyDemo.middlewares.ScrapyDemoDownloaderMiddleware': 543,
+    # 在settings文件中设置USER_AGENT参数后，会为每个Request设置请求头字段
    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': 2
 }
 

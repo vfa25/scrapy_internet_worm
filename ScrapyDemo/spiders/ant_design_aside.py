@@ -5,7 +5,7 @@ import scrapy
 from urllib import parse as urlparse
 from scrapy.http import Request
 from ScrapyDemo.items import (
-    AntdAsideNavItem, AntdComponentDetailItem, TakeFirstItemLoader)
+    AntdAsideNavItem, AntdComponentDetailItem, CustomItemLoader)
 
 
 random_ins = Random()
@@ -52,7 +52,7 @@ class AntDesignAsideSpider(scrapy.Spider):
 
         for post_node in post_nodes:
             # aside_nav_item = AntdAsideNavItem()
-            # item_loader = TakeFirstItemLoader(
+            # item_loader = CustomItemLoader(
             #     item=aside_nav_item,
             #     selector=post_node
             # )
@@ -71,7 +71,7 @@ class AntDesignAsideSpider(scrapy.Spider):
             detail_block = response.css(css_str)
 
             component_detail_item = AntdComponentDetailItem()
-            component_loader = TakeFirstItemLoader(
+            component_loader = CustomItemLoader(
                 item=component_detail_item,
                 selector=post_node
             )

@@ -3,7 +3,7 @@ import scrapy
 from scrapy.http import Request
 from urllib import parse as urlparse
 from ScrapyDemo.utils.common import get_md5
-from ScrapyDemo.items import ScrapyDemoItem, TakeFirstItemLoader
+from ScrapyDemo.items import ScrapyDemoItem, CustomItemLoader
 
 
 class GithubAppSpider(scrapy.Spider):
@@ -56,7 +56,7 @@ class GithubAppSpider(scrapy.Spider):
             # 应在此实例化
             article_item = ScrapyDemoItem()
             # 通过item_loader加载item
-            item_loader = TakeFirstItemLoader(
+            item_loader = CustomItemLoader(
                 item=article_item,
                 selector=post_node
             )

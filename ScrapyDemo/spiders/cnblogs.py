@@ -8,7 +8,7 @@ from scrapy import Request
 import requests
 
 from ScrapyDemo.utils.common import get_md5
-from ScrapyDemo.items import (CnblogsItem, TakeFirstItemLoader)
+from ScrapyDemo.items import (CnblogsItem, CustomItemLoader)
 
 
 class CnblogsSpider(scrapy.Spider):
@@ -52,7 +52,7 @@ class CnblogsSpider(scrapy.Spider):
         if match_re:
             post_id = match_re.group(1)
 
-            item_loader = TakeFirstItemLoader(
+            item_loader = CustomItemLoader(
                 item=CnblogsItem(), response=response)
             item_loader.add_css('title', '#news_title a::text')
             item_loader.add_css('content', '#news_content')
